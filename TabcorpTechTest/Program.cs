@@ -32,11 +32,11 @@ if (app.Environment.IsDevelopment())
         db.Database.EnsureCreated();
         db.Customers.AddRange(
         [
-            new Customer() { CustomerID = 10001, FirstName = "Tony", LastName = "Stark", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Australia },
-            new Customer() { CustomerID = 10002, FirstName = "Bruce", LastName = "Banner", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.US },
-            new Customer() { CustomerID = 10003, FirstName = "Steve", LastName = "Rogers", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Australia },
-            new Customer() { CustomerID = 10004, FirstName = "Wanda", LastName = "Maximoff", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.US },
-            new Customer() { CustomerID = 10005, FirstName = "Natasha", LastName = "Romanoff", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Canada },
+            new Customer() { Id = 10001, FirstName = "Tony", LastName = "Stark", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Australia },
+            new Customer() { Id = 10002, FirstName = "Bruce", LastName = "Banner", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.US },
+            new Customer() { Id = 10003, FirstName = "Steve", LastName = "Rogers", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Australia },
+            new Customer() { Id = 10004, FirstName = "Wanda", LastName = "Maximoff", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.US },
+            new Customer() { Id = 10005, FirstName = "Natasha", LastName = "Romanoff", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Canada },
         ]);
 
         db.Products.AddRange([

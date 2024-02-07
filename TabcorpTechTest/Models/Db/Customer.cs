@@ -7,7 +7,7 @@ namespace TabcorpTechTest.Models.Db
     public class Customer
     {
         [Key]
-        public long CustomerID { get; set; }
+        public long Id { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Age { get; set; }
