@@ -9,6 +9,6 @@ namespace TabcorpTechTest.Services
 
         public List<ProductCostTotalDto> GetProductCostTotals();
 
-        public List<CustomerCostTotalDto> GetTransactionCountForLocation(Location location);
+        public List<LocationCustomerStatsDto> GetTransactionCountForLocation(Location[] locations);
     }
 }

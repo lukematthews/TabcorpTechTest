@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TabcorpTechTest.Constants;
-using TabcorpTechTest.Models.Db;
-using TabcorpTechTest.Models.Dto;
 using TabcorpTechTest.Services;
 
 
@@ -28,9 +26,9 @@ namespace TabcorpTechnicalTest.Controllers
         }
 
         [HttpGet("locationCustomerCounts")]
-        public IActionResult GetTransactionCustomerCountsForAustralia()
+        public IActionResult GetTransactionCustomerCountsForAustralia([FromQuery] Location[] locations)
         {
-            return Ok(reportService.GetTransactionCountForLocation(Location.Australia));
+            return Ok(reportService.GetTransactionCountForLocation(locations));
         }
 
 
