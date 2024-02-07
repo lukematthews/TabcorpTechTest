@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
@@ -60,6 +61,44 @@ namespace TabcorpTechTest.Services
         {
             _context.Transactions.Add(transaction);
             _context.SaveChanges();
+        }
+
+        public List<ValidationResult> ValidateTransaction(Transaction transaction)
+        {
+            var validationResults = new List<ValidationResult>() {
+                ValidatePrice(transaction),
+                ValidateProductStatus(transaction),
+                ValidateTransactionDate(transaction) };
+            validationResults.RemoveAll(vr => vr == ValidationResult.Success);
+            return validationResults;
+        }
+
+        private ValidationResult ValidateTransactionDate(Transaction transaction)
+        {
+            var elapsed = (DateTime.Now - transaction.TransactionTime).TotalMinutes;
+            if (elapsed > 60)
+            {
+                return new ValidationResult("Transaction time is invalid");
+            }
+            return ValidationResult.Success;
+        }
+
+        private ValidationResult ValidateProductStatus(Transaction transaction)
+        {
+            if (transaction.ProductCode.Status == Constants.ProductStatus.Inactive)
+            {
+                return new ValidationResult("Product state is invalid");
+            }
+            return ValidationResult.Success;
+        }
+
+        private ValidationResult ValidatePrice(Transaction transaction)
+        {
+            if (transaction.Quantity > 0 && (transaction.Quantity * transaction.ProductCode.Cost) > 5000)
+            {
+                return new ValidationResult("Transaction total cost invalid");
+            }
+            return ValidationResult.Success;
         }
     }
 }
