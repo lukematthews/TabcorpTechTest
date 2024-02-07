@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabcorpTechTest", "TabcorpTechTest.csproj", "{D459EE3D-8262-487B-BA18-CB93654AC6C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabcorpTechTest", "TabcorpTechTest\TabcorpTechTest.csproj", "{D459EE3D-8262-487B-BA18-CB93654AC6C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabcorpTechTest.Tests", "TabcorpTechTest.Tests\TabcorpTechTest.Tests.csproj", "{E5E702C2-A80D-4CC6-B225-E850BDAE61EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D459EE3D-8262-487B-BA18-CB93654AC6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D459EE3D-8262-487B-BA18-CB93654AC6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D459EE3D-8262-487B-BA18-CB93654AC6C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5E702C2-A80D-4CC6-B225-E850BDAE61EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5E702C2-A80D-4CC6-B225-E850BDAE61EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5E702C2-A80D-4CC6-B225-E850BDAE61EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5E702C2-A80D-4CC6-B225-E850BDAE61EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

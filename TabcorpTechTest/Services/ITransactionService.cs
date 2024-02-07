@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TabcorpTechTest.Models.Db;
+﻿using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
 
 namespace TabcorpTechTest.Services

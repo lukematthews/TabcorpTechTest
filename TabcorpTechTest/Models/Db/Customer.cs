@@ -8,10 +8,10 @@ namespace TabcorpTechTest.Models.Db
     {
         [Key]
         public long CustomerID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Age { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Age { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public Location Location { get; set; }
+        public required Location Location { get; set; }
     }
 }

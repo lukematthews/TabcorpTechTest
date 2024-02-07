@@ -8,38 +8,40 @@ namespace TabcorpTechTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private ApiContext _context;
 
-        public CustomerController(ApiContext context) {
+        public ProductController(ApiContext context)
+        {
             _context = context;
         }
         // GET: api/<CustomerController>
         [HttpGet]
-        public IEnumerable<Customer> Get()
+        public IEnumerable<Product> Get()
         {
-            return _context.Customers.ToList();
+            return _context.Products.ToList();
         }
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        public Customer Get(int id)
+        public IActionResult Get(int id)
         {
-            return _context.Customers.Find(id);
+            var product = _context.Products.Find(id);
+            return product == null ? BadRequest() : Ok(product);
         }
 
         // POST api/<CustomerController>
         [HttpPost]
-        public void Post([FromBody] Customer value)
+        public void Post([FromBody] Product value)
         {
-            _context.Customers.Add(value);
+            _context.Products.Add(value);
             _context.SaveChanges();
         }
 
         // PUT api/<CustomerController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Customer value)
+        public void Put(int id, [FromBody] Product value)
         {
         }
 
@@ -47,7 +49,7 @@ namespace TabcorpTechTest.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _context.Customers.Remove(_context.Customers.Find(id));
+            _context.Products.Remove(_context.Products.Find(id));
             _context.SaveChanges();
         }
     }

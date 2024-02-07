@@ -2,6 +2,6 @@
 {
     public enum ProductStatus
     {
-        ACTIVE, INACTIVE
+        Active, Inactive
     }
 }

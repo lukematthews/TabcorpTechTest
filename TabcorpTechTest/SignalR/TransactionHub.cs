@@ -9,7 +9,8 @@ namespace TabcorpTechTest.SignalR
     {
         private readonly ITransactionService transactionService;
 
-        public TransactionHub(ITransactionService transactionService) { 
+        public TransactionHub(ITransactionService transactionService)
+        {
             this.transactionService = transactionService;
         }
         public async Task SendMessage(string user, TransactionDto transactionDto)

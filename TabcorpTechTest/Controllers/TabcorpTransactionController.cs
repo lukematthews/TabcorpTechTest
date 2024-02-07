@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
 using TabcorpTechTest.Services;
@@ -25,8 +24,23 @@ namespace TabcorpTechnicalTest.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] TransactionDto value)
         {
-            Transaction transaction = transactionService.ToTransaction(value);
-            transactionService.SaveTransaction(transaction);
+            try
+            {
+                Transaction transaction = transactionService.ToTransaction(value);
+                transactionService.SaveTransaction(transaction);
+            }
+            catch (Exception e)
+            {
+                if (e is CustomerNotFoundException || e is ProductNotFoundException)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    throw;
+                }
+
+            }
             return Ok();
         }
     }

@@ -12,11 +12,26 @@ namespace TabcorpTechTest.Services
         public Transaction ToTransaction(TransactionDto transactionDto)
         {
             // throw exceptions for a 400 if customer or product not found.
-            Customer customer = _context.Customers.Where(x => x.CustomerID == transactionDto.CustomerId).First();
-            Product product = _context.Products.Where(x => x.ProductCode == transactionDto.ProductCode).First();
+            //Customer customer = _context.Customers.Where(x => x.CustomerID == transactionDto.CustomerId).First();
+
+            Customer customer = _context.Customers
+                .Where(x => x.CustomerID == transactionDto.CustomerId)
+                .FirstOrDefault();
+            if (customer == null)
+            {
+                throw new CustomerNotFoundException();
+            }
+            Product product = _context.Products
+                .Where(x => x.ProductCode == transactionDto.ProductCode)
+                .FirstOrDefault();
+            if (product == null)
+            {
+                throw new ProductNotFoundException();
+            }
             DateTime transactionTime = DateTime.Parse(transactionDto.TransactionTime);
 
-            return new Transaction {
+            return new Transaction
+            {
                 CustomerId = customer,
                 ProductCode = product,
                 Quantity = transactionDto.Quantity,
@@ -34,16 +49,17 @@ namespace TabcorpTechTest.Services
 
         public IEnumerable<TransactionDto> GetAllTransactions()
         {
+            Console.WriteLine($"Total transaction count: {context.Transactions.Count()}");
             return _context.Transactions
                 .Include(t => t.CustomerId)
                 .Include(t => t.ProductCode)
                 .Select(t => ToTransactionDto(t)).ToList();
         }
 
-        public async void SaveTransaction(Transaction transaction)
+        public void SaveTransaction(Transaction transaction)
         {
             _context.Transactions.Add(transaction);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

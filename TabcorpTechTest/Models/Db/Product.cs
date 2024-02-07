@@ -8,8 +8,8 @@ namespace TabcorpTechTest.Models.Db
         [Key]
         public int Id { get; set; }
 
-        public string ProductCode { get; set; }
-        public decimal? Cost { get; set; }
-        public ProductStatus Status { get; set; }
+        public required string ProductCode { get; set; }
+        public required decimal Cost { get; set; }
+        public required ProductStatus Status { get; set; }
     }
 }
