@@ -4,7 +4,8 @@ namespace TabcorpTechTest.Models.Dto
 {
     public class LocationCustomerStatsDto
     {
-        public Location location { get; set; }
-        public List<CustomerCostTotalDto> customers { get; set; }
+        public Location Location { get; set; }
+        public List<CustomerCostTotalDto> Customers { get; set; }
+        public decimal TransactionCount { get; set; }
     }
 }

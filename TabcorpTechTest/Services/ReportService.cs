@@ -1,6 +1,7 @@
 ﻿using TabcorpTechTest.Constants;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Dto;
+using TabcorpTechTest.Models.Db;
 
 namespace TabcorpTechTest.Services
 {
@@ -47,7 +48,7 @@ namespace TabcorpTechTest.Services
         {
             var totalsList = (from c in _context.Customers
                               where location == c.Location
-                              select new CustomerCostTotalDto() { CustomerID = c.Id, TotalCost = 0 }).ToList();
+                              select new CustomerCostTotalDto() { CustomerID = c.Id, TotalCost = 0, Count = 0 }).ToList();
 
             var customersInLocation = (from t in _context.Transactions
                                        where location == t.Customer.Location
@@ -55,7 +56,7 @@ namespace TabcorpTechTest.Services
                                       into g
                                        select new CustomerCostTotalDto() { CustomerID = g.Key.Id, Count = g.Count() }).ToList();
             List<CustomerCostTotalDto> customers = customersInLocation.UnionBy(totalsList, x => x.CustomerID).ToList();
-            return new LocationCustomerStatsDto { location = location, customers = customers };
+            return new LocationCustomerStatsDto { Location = location, Customers = customers, TransactionCount = customers.Sum(c => c.Count) };
         }
     }
 }
