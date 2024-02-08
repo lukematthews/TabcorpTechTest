@@ -5,9 +5,10 @@ using TabcorpTechTest.Models.Dto;
 
 namespace TabcorpTechTest.Services
 {
-    public class TransactionService(ApiContext context) : ITransactionService
+    public class TransactionService(ApiContext context, IConfiguration configuration) : ITransactionService
     {
         private readonly ApiContext _context = context;
+        private readonly IConfiguration Configuration = configuration;
 
         public Transaction ToTransaction(TransactionDto transactionDto)
         {
@@ -39,13 +40,17 @@ namespace TabcorpTechTest.Services
             };
         }
 
-        public TransactionDto ToTransactionDto(Transaction transaction) => new TransactionDto
+        public TransactionDto ToTransactionDto(Transaction transaction)
         {
-            CustomerId = transaction.CustomerId.CustomerID,
-            ProductCode = transaction.ProductCode.ProductCode,
-            Quantity = transaction.Quantity,
-            TransactionTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", transaction.TransactionTime),
-        };
+            var transactionTime = transaction.TransactionTime.ToString(Configuration["TransactionTimeFormat"]);
+            return new TransactionDto
+            {
+                CustomerId = transaction.CustomerId.CustomerID,
+                ProductCode = transaction.ProductCode.ProductCode,
+                Quantity = transaction.Quantity,
+                TransactionTime = transactionTime,
+            };
+        }
 
         public IEnumerable<TransactionDto> GetAllTransactions()
         {
