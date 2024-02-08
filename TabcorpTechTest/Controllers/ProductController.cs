@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Db;
 
@@ -8,6 +9,8 @@ namespace TabcorpTechTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ProductController : ControllerBase
     {
         private ApiContext _context;
