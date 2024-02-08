@@ -25,9 +25,9 @@ public class TabcorpTransactionControllerTest
     {
         var mock = new Mock<ITransactionService>();
         var transactions = new TransactionDto[] {
-            new() { CustomerId = 1, ProductCode = "2", Quantity = 1, TransactionTime = DateTime.Now.ToString() },
-            new() { CustomerId = 2, ProductCode = "3", Quantity = 2, TransactionTime = DateTime.Now.ToString() },
-            new() { CustomerId = 3, ProductCode = "4", Quantity = 3, TransactionTime = DateTime.Now.ToString() }
+            new() { CustomerID = 1, ProductCode = "2", Quantity = 1, TransactionTime = DateTime.Now.ToString() },
+            new() { CustomerID = 2, ProductCode = "3", Quantity = 2, TransactionTime = DateTime.Now.ToString() },
+            new() { CustomerID = 3, ProductCode = "4", Quantity = 3, TransactionTime = DateTime.Now.ToString() }
         };
         mock.Setup(m => m.GetAllTransactions()).Returns(transactions).Verifiable();
 
@@ -41,13 +41,13 @@ public class TabcorpTransactionControllerTest
     public void TestPostShouldConvertToDbModelAndSave()
     {
         var mock = new Mock<ITransactionService>();
-        var transactionDto = new TransactionDto() { CustomerId = 1, ProductCode = "1", Quantity = 1, TransactionTime = DateTime.Now.ToString() };
+        var transactionDto = new TransactionDto() { CustomerID = 1, ProductCode = "1", Quantity = 1, TransactionTime = DateTime.Now.ToString() };
         var transaction = new Transaction()
         {
-            CustomerId = new Customer() { FirstName = "Luke", LastName = "Matthews", Age = "43", Location = Location.Australia },
+            Customer = new Customer() { FirstName = "Luke", LastName = "Matthews", Age = "43", Location = Location.Australia },
             TransactionTime = DateTime.Now,
             Quantity = 1,
-            ProductCode = new Product() { ProductCode = "1", Cost = 1, Status = ProductStatus.Active }
+            Product = new Product() { ProductCode = "1", Cost = 1, Status = ProductStatus.Active }
         };
         mock.Setup(m => m.ToTransaction(It.Is<TransactionDto>(t => t == transactionDto))).Returns(transaction).Verifiable();
         mock.Setup(m => m.SaveTransaction(It.IsAny<Transaction>())).Verifiable();

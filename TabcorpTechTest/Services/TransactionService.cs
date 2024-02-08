@@ -14,10 +14,8 @@ namespace TabcorpTechTest.Services
         public Transaction ToTransaction(TransactionDto transactionDto)
         {
             // throw exceptions for a 400 if customer or product not found.
-            //Customer customer = _context.Customers.Where(x => x.CustomerID == transactionDto.CustomerId).First();
-
             Customer customer = _context.Customers
-                .Where(x => x.CustomerID == transactionDto.CustomerId)
+                .Where(x => x.Id == transactionDto.CustomerID)
                 .FirstOrDefault();
             if (customer == null)
             {
@@ -34,8 +32,8 @@ namespace TabcorpTechTest.Services
 
             return new Transaction
             {
-                CustomerId = customer,
-                ProductCode = product,
+                Customer = customer,
+                Product = product,
                 Quantity = transactionDto.Quantity,
                 TransactionTime = transactionTime,
             };
@@ -43,8 +41,8 @@ namespace TabcorpTechTest.Services
 
         public TransactionDto ToTransactionDto(Transaction transaction) => new()
         {
-            CustomerId = transaction.CustomerId.CustomerID,
-            ProductCode = transaction.ProductCode.ProductCode,
+            CustomerID = transaction.Customer.Id,
+            ProductCode = transaction.Product.ProductCode,
             Quantity = transaction.Quantity,
             TransactionTime = transaction.TransactionTime.ToString(Configuration["TransactionTimeFormat"]),
         };
@@ -53,8 +51,8 @@ namespace TabcorpTechTest.Services
         {
             Console.WriteLine($"Total transaction count: {context.Transactions.Count()}");
             return _context.Transactions
-                .Include(t => t.CustomerId)
-                .Include(t => t.ProductCode)
+                .Include(t => t.Customer)
+                .Include(t => t.Product)
                 .Select(t => ToTransactionDto(t)).ToList();
         }
 

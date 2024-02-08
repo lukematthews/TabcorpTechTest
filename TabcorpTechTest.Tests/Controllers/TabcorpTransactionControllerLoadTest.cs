@@ -21,7 +21,7 @@ namespace TabcorpTechTest.Tests.Controllers
             var transactions = new List<TransactionDto>();
             for (int i = 0; i < count; i++)
             {
-                transactions.Add(new TransactionDto() { CustomerId = 10001, ProductCode = "PRODUCT_001", Quantity = 1, TransactionTime = "2024/02/06 13:53" });
+                transactions.Add(new TransactionDto() { CustomerID = 10001, ProductCode = "PRODUCT_001", Quantity = 1, TransactionTime = "2024/02/06 13:53" });
             }
 
             transactions.ForEach(async t => await client.PostAsJsonAsync("https://localhost:7238/TabcorpTransaction", t));
