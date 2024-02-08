@@ -41,7 +41,7 @@ namespace TabcorpTechTest.Services
             };
         }
 
-        public TransactionDto ToTransactionDto(Transaction transaction) => new TransactionDto
+        public TransactionDto ToTransactionDto(Transaction transaction) => new()
         {
             CustomerId = transaction.CustomerId.CustomerID,
             ProductCode = transaction.ProductCode.ProductCode,
