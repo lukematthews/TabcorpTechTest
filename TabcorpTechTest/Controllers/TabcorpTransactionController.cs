@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using TabcorpTechTest.Constants;
 using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
 using TabcorpTechTest.Services;
@@ -19,13 +20,14 @@ namespace TabcorpTechnicalTest.Controllers
 
         // GET: api/<TabcorpTransactionController>
         [HttpGet]
+        [Authorize(Roles = SecurityRoles.Admin)]
         public IEnumerable<TransactionDto> Get()
         {
             return transactionService.GetAllTransactions();
         }
 
         // POST api/<TabcorpTransactionController>
-        [HttpPost, Authorize(Roles ="admin")]
+        [HttpPost, Authorize(Roles = SecurityRoles.User)]
         public IActionResult Post([FromBody] TransactionDto value)
         {
             try

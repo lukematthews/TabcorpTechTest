@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
+using TabcorpTechTest.Constants;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Services;
@@ -15,7 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => {
+builder.Services.AddSwaggerGen(options =>
+{
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -64,22 +66,24 @@ if (app.Environment.IsDevelopment())
         db.Database.EnsureCreated();
         db.Customers.AddRange(
         [
-            new Customer() { Id = 10001, FirstName = "Tony", LastName = "Stark", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Australia },
-            new Customer() { Id = 10002, FirstName = "Bruce", LastName = "Banner", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.US },
-            new Customer() { Id = 10003, FirstName = "Steve", LastName = "Rogers", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Australia },
-            new Customer() { Id = 10004, FirstName = "Wanda", LastName = "Maximoff", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.US },
-            new Customer() { Id = 10005, FirstName = "Natasha", LastName = "Romanoff", Age = "tony.stark@gmail.com", Location = TabcorpTechTest.Constants.Location.Canada },
+            new Customer() { Id = 10001, FirstName = "Tony", LastName = "Stark", Age = "tony.stark@gmail.com", Location = Location.Australia },
+            new Customer() { Id = 10002, FirstName = "Bruce", LastName = "Banner", Age = "tony.stark@gmail.com", Location = Location.US },
+            new Customer() { Id = 10003, FirstName = "Steve", LastName = "Rogers", Age = "tony.stark@gmail.com", Location = Location.Australia },
+            new Customer() { Id = 10004, FirstName = "Wanda", LastName = "Maximoff", Age = "tony.stark@gmail.com", Location = Location.US },
+            new Customer() { Id = 10005, FirstName = "Natasha", LastName = "Romanoff", Age = "tony.stark@gmail.com", Location = Location.Canada },
         ]);
 
         db.Products.AddRange([
-            new Product() { ProductCode = "PRODUCT_001", Cost = 50, Status = TabcorpTechTest.Constants.ProductStatus.Active },
-            new Product() { ProductCode = "PRODUCT_002", Cost = 100, Status = TabcorpTechTest.Constants.ProductStatus.Inactive },
-            new Product() { ProductCode = "PRODUCT_003", Cost = 200, Status = TabcorpTechTest.Constants.ProductStatus.Active },
-            new Product() { ProductCode = "PRODUCT_004", Cost = 10, Status = TabcorpTechTest.Constants.ProductStatus.Inactive },
-            new Product() { ProductCode = "PRODUCT_005", Cost = 500, Status = TabcorpTechTest.Constants.ProductStatus.Active },
+            new Product() { ProductCode = "PRODUCT_001", Cost = 50, Status = ProductStatus.Active },
+            new Product() { ProductCode = "PRODUCT_002", Cost = 100, Status = ProductStatus.Inactive },
+            new Product() { ProductCode = "PRODUCT_003", Cost = 200, Status = ProductStatus.Active },
+            new Product() { ProductCode = "PRODUCT_004", Cost = 10, Status = ProductStatus.Inactive },
+            new Product() { ProductCode = "PRODUCT_005", Cost = 500, Status = ProductStatus.Active },
         ]);
 
-        db.Users.AddRange([new User() { UserName = "user", Password = "user" }]);
+        db.Users.AddRange([new User() { UserName = "user", Password = "user", Roles = [SecurityRoles.User] }]);
+        db.Users.AddRange([new User() { UserName = "user-reports", Password = "user", Roles = [SecurityRoles.User, SecurityRoles.Reports] }]);
+        db.Users.AddRange([new User() { UserName = "user-admin", Password = "user", Roles = [SecurityRoles.User, SecurityRoles.Reports, SecurityRoles.Admin] }]);
         db.SaveChanges();
     }
 }
@@ -90,7 +94,7 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-app.UseAuthorization(); 
+app.UseAuthorization();
 app.MapControllers().RequireAuthorization();
 app.MapHub<TransactionHub>("/transactionHub");
 

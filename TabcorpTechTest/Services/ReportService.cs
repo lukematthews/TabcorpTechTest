@@ -1,7 +1,6 @@
 ﻿using TabcorpTechTest.Constants;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Dto;
-using TabcorpTechTest.Models.Db;
 
 namespace TabcorpTechTest.Services
 {
