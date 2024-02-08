@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TabcorpTechTest.Constants;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Db;
 
@@ -9,7 +10,7 @@ namespace TabcorpTechTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = SecurityRoles.Admin)]
 
     public class ProductController : ControllerBase
     {

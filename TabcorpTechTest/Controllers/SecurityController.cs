@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Db;
+using TabcorpTechTest.Models.Dto;
 
 namespace TabcorpTechTest.Controllers
 {
@@ -21,13 +22,13 @@ namespace TabcorpTechTest.Controllers
             _context = context;
             this.Configuration = configuration;
         }
-        
+
         // POST api/<CustomerController>
         [HttpPost("createToken"), AllowAnonymous]
-        public IResult Post([FromBody] User user)
+        public IResult Post([FromBody] UserDto userDto)
         {
-            user = (from u in _context.Users 
-                    where u.UserName == user.UserName && u.Password == user.Password 
+            User user = (from u in _context.Users
+                    where u.UserName == userDto.UserName && u.Password == userDto.Password
                     select u)
                     .FirstOrDefault();
             if (user != null)
@@ -35,22 +36,23 @@ namespace TabcorpTechTest.Controllers
                 var issuer = Configuration["Jwt:Issuer"];
                 var audience = Configuration["Jwt:Audience"];
                 var key = Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]);
+
+                List<Claim> claims =
+                    [new Claim("Id", Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Email, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    ];
+                claims.AddRange(from r in user.Roles
+                                select new Claim(ClaimTypes.Role, r));
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = new ClaimsIdentity(new[]
-                    {
-                new Claim("Id", Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti,
-                Guid.NewGuid().ToString())
-            }),
+                    Subject = new ClaimsIdentity(claims),                    
                     Expires = DateTime.UtcNow.AddMinutes(5),
                     Issuer = issuer,
                     Audience = audience,
-                    SigningCredentials = new SigningCredentials
-                    (new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha512Signature)
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature),
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescriptor);
