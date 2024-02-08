@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
 using TabcorpTechTest.Services;
@@ -9,6 +10,8 @@ namespace TabcorpTechnicalTest.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
+    [Authorize]
+
     public class TabcorpTransactionController(ITransactionService transactionService) : ControllerBase
     {
         private readonly ITransactionService transactionService = transactionService;
@@ -21,7 +24,7 @@ namespace TabcorpTechnicalTest.Controllers
         }
 
         // POST api/<TabcorpTransactionController>
-        [HttpPost]
+        [HttpPost, Authorize(Roles ="admin")]
         public IActionResult Post([FromBody] TransactionDto value)
         {
             try
