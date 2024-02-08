@@ -11,5 +11,10 @@ namespace TabcorpTechTest.Models.Db
         public required Customer Customer { get; set; }
         public required long Quantity { get; set; }
         public required Product Product { get; set; }
+
+        public decimal GetCost()
+        {
+            return Quantity * Product.Cost;
+        }
     }
 }
