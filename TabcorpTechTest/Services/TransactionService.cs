@@ -6,9 +6,10 @@ using TabcorpTechTest.Models.Dto;
 
 namespace TabcorpTechTest.Services
 {
-    public class TransactionService(ApiContext context) : ITransactionService
+    public class TransactionService(ApiContext context, IConfiguration configuration) : ITransactionService
     {
         private readonly ApiContext _context = context;
+        private readonly IConfiguration Configuration = configuration;
 
         public Transaction ToTransaction(TransactionDto transactionDto)
         {
@@ -45,7 +46,7 @@ namespace TabcorpTechTest.Services
             CustomerId = transaction.CustomerId.CustomerID,
             ProductCode = transaction.ProductCode.ProductCode,
             Quantity = transaction.Quantity,
-            TransactionTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", transaction.TransactionTime),
+            TransactionTime = transaction.TransactionTime.ToString(Configuration["TransactionTimeFormat"]),
         };
 
         public IEnumerable<TransactionDto> GetAllTransactions()
@@ -76,11 +77,9 @@ namespace TabcorpTechTest.Services
         private ValidationResult ValidateTransactionDate(Transaction transaction)
         {
             var elapsed = (DateTime.Now - transaction.TransactionTime).TotalMinutes;
-            if (elapsed > 60)
-            {
-                return new ValidationResult("Transaction time is invalid");
-            }
-            return ValidationResult.Success;
+            return elapsed > Configuration.GetValue<int>("Validation:PastMinutes")
+                ? new ValidationResult("Transaction time is invalid")
+                : ValidationResult.Success;
         }
 
         private ValidationResult ValidateProductStatus(Transaction transaction)
@@ -94,7 +93,7 @@ namespace TabcorpTechTest.Services
 
         private ValidationResult ValidatePrice(Transaction transaction)
         {
-            if (transaction.Quantity > 0 && (transaction.Quantity * transaction.ProductCode.Cost) > 5000)
+            if (transaction.Quantity > 0 && (transaction.Quantity * transaction.ProductCode.Cost) > Configuration.GetValue<int>("Validation:MaxValue"))
             {
                 return new ValidationResult("Transaction total cost invalid");
             }
