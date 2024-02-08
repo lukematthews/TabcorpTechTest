@@ -79,7 +79,7 @@ if (app.Environment.IsDevelopment())
             new Product() { ProductCode = "PRODUCT_005", Cost = 500, Status = TabcorpTechTest.Constants.ProductStatus.Active },
         ]);
 
-        db.Users.AddRange([new User() { UserName = "joydip", Password = "joydip123" }]);
+        db.Users.AddRange([new User() { UserName = "user", Password = "user" }]);
         db.SaveChanges();
     }
 }

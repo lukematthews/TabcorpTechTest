@@ -91,7 +91,7 @@ namespace TabcorpTechTest.Services
 
         private ValidationResult ValidatePrice(Transaction transaction)
         {
-            if (transaction.Quantity > 0 && (transaction.Quantity * transaction.Product.Cost) > Configuration.GetValue<int>("Validation:MaxValue"))
+            if (transaction.Quantity > 0 && transaction.GetCost() > Configuration.GetValue<int>("Validation:MaxValue"))
             {
                 return new ValidationResult("Transaction total cost invalid");
             }
