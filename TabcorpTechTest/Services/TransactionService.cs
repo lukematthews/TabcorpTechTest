@@ -82,7 +82,7 @@ namespace TabcorpTechTest.Services
 
         private ValidationResult ValidateProductStatus(Transaction transaction)
         {
-            if (transaction.ProductCode.Status == Constants.ProductStatus.Inactive)
+            if (transaction.Product.Status == Constants.ProductStatus.Inactive)
             {
                 return new ValidationResult("Product state is invalid");
             }
@@ -91,7 +91,7 @@ namespace TabcorpTechTest.Services
 
         private ValidationResult ValidatePrice(Transaction transaction)
         {
-            if (transaction.Quantity > 0 && (transaction.Quantity * transaction.ProductCode.Cost) > Configuration.GetValue<int>("Validation:MaxValue"))
+            if (transaction.Quantity > 0 && (transaction.Quantity * transaction.Product.Cost) > Configuration.GetValue<int>("Validation:MaxValue"))
             {
                 return new ValidationResult("Transaction total cost invalid");
             }
