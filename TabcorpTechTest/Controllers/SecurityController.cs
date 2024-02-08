@@ -23,7 +23,6 @@ namespace TabcorpTechTest.Controllers
             this.Configuration = configuration;
         }
 
-        // POST api/<CustomerController>
         [HttpPost("createToken"), AllowAnonymous]
         public IResult Post([FromBody] UserDto userDto)
         {

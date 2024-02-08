@@ -20,14 +20,14 @@ namespace TabcorpTechTest.Controllers
         {
             _context = context;
         }
-        // GET: api/<CustomerController>
+        // GET: api/<ProductController>
         [HttpGet]
         public IEnumerable<Product> Get()
         {
             return _context.Products.ToList();
         }
 
-        // GET api/<CustomerController>/5
+        // GET api/<ProductController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -35,7 +35,7 @@ namespace TabcorpTechTest.Controllers
             return product == null ? BadRequest() : Ok(product);
         }
 
-        // POST api/<CustomerController>
+        // POST api/<ProductController>
         [HttpPost]
         public void Post([FromBody] Product value)
         {
@@ -43,13 +43,13 @@ namespace TabcorpTechTest.Controllers
             _context.SaveChanges();
         }
 
-        // PUT api/<CustomerController>/5
+        // PUT api/<ProductController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Product value)
         {
         }
 
-        // DELETE api/<CustomerController>/5
+        // DELETE api/<ProductController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

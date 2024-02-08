@@ -14,7 +14,6 @@ namespace TabcorpTechnicalTest.Controllers
     {
         private readonly IReportService reportService = reportService;
 
-        // GET api/<ReportController>
         [HttpGet("customerCostTotals")]
         public IActionResult GetCustomerTotalCosts()
         {

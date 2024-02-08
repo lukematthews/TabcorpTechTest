@@ -18,7 +18,6 @@ namespace TabcorpTechnicalTest.Controllers
     {
         private readonly ITransactionService transactionService = transactionService;
 
-        // GET: api/<TabcorpTransactionController>
         [HttpGet]
         [Authorize(Roles = SecurityRoles.Admin)]
         public IEnumerable<TransactionDto> Get()
@@ -26,7 +25,6 @@ namespace TabcorpTechnicalTest.Controllers
             return transactionService.GetAllTransactions();
         }
 
-        // POST api/<TabcorpTransactionController>
         [HttpPost, Authorize(Roles = SecurityRoles.User)]
         public IActionResult Post([FromBody] TransactionDto value)
         {
