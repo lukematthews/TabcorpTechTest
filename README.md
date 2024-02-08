@@ -1,4 +1,31 @@
 # .NET C# Technical Test
+
+# Installation and running
+* Download the code using the green "<> Code" button above. Cloning or zip is fine
+* Open the solution in Visual Studio
+* Run the "https" profile
+
+Your browser should start with Swagger being shown.
+
+The code on master at the moment has all of the tasks implemented. In order to use the application with TASK 4 implemented, you will need to create a JWT security token to use with the API calls that you are making.
+* Call the "/api/Security/createToken" endpoint passing the username and password in the json body.
+* Using the response of that call, pass the token in subsequent call in the authorization header "authorization: Bearer <token>"
+
+# Implementation notes
+* The database is currently an in-memory database. This was chosen to keep running it extremely simple. It performs really well on a small dataset but it is obviously not what you would pursue moving forward.
+* DTO vs Domain objects. Each of the externally facing endpoints accept and return data using DTO classes. These classes are used to structure the request/response formats so that the underlying database structures are not exposed.
+* Services: Using dependency injection, service classes allow us to keep controllers extremely lightweight. Looking at the Report and Transaction controllers you'll notice there are database calls. Just calls to the services
+* The data type of field is string with the exception of: Transaction quantity, Transaction customer id, Product cost which are all numbers. (Cost is a decimal)
+* Task 2: I was planning on using in built dotnet validation on the DTO for the transaction, but needing to know details about the product associcated with the transaction, I could not validate until after the product had been retrieved from the database.
+* Task 2: "Date must not be in the past" I've interpreted this as date cannot be older than xxx minutes ago. For it to be date based, it could be configured to say that the threshold minutes are 1440 or I rewrite the validation to parse the date and make sure that the day number is the same as today.
+* Task 3: "Number of transactions sold to customer from Australia" this endpoint allows you to select additional locations. If no locations are provided, it defaults to Australia
+* Task 3: For the reports that return data about the customers, both count and cost are returned. A little bit more work needed there to filter the fields returned.
+
+## TODO
+* Unit testing is still being increased
+* Accepting Binary transactions is a work in progress. The implementation will be using Web Sockets that will allow the user to effectively stream transactions to the server
+* The user passwords are stored in plain text. This would need to be stored hashed
+
 ## Requirements
 * Code must be completed within 5 days of receiving test
 * Minimum .NET C# version 6
