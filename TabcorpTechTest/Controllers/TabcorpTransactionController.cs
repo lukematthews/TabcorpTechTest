@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
 using TabcorpTechTest.Services;
@@ -27,6 +28,11 @@ namespace TabcorpTechnicalTest.Controllers
             try
             {
                 Transaction transaction = transactionService.ToTransaction(value);
+                List<ValidationResult> validationResults = transactionService.ValidateTransaction(transaction);
+                if (validationResults.Count > 0)
+                {
+                    return BadRequest(validationResults.Select(v => v.ErrorMessage).ToList());
+                }
                 transactionService.SaveTransaction(transaction);
             }
             catch (Exception e)

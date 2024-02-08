@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TabcorpTechTest.Data;
 using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
@@ -40,17 +41,13 @@ namespace TabcorpTechTest.Services
             };
         }
 
-        public TransactionDto ToTransactionDto(Transaction transaction)
+        public TransactionDto ToTransactionDto(Transaction transaction) => new()
         {
-            var transactionTime = transaction.TransactionTime.ToString(Configuration["TransactionTimeFormat"]);
-            return new TransactionDto
-            {
-                CustomerId = transaction.CustomerId.CustomerID,
-                ProductCode = transaction.ProductCode.ProductCode,
-                Quantity = transaction.Quantity,
-                TransactionTime = transactionTime,
-            };
-        }
+            CustomerId = transaction.CustomerId.CustomerID,
+            ProductCode = transaction.ProductCode.ProductCode,
+            Quantity = transaction.Quantity,
+            TransactionTime = transaction.TransactionTime.ToString(Configuration["TransactionTimeFormat"]),
+        };
 
         public IEnumerable<TransactionDto> GetAllTransactions()
         {
@@ -65,6 +62,42 @@ namespace TabcorpTechTest.Services
         {
             _context.Transactions.Add(transaction);
             _context.SaveChanges();
+        }
+
+        public List<ValidationResult> ValidateTransaction(Transaction transaction)
+        {
+            var validationResults = new List<ValidationResult>() {
+                ValidatePrice(transaction),
+                ValidateProductStatus(transaction),
+                ValidateTransactionDate(transaction) };
+            validationResults.RemoveAll(vr => vr == ValidationResult.Success);
+            return validationResults;
+        }
+
+        private ValidationResult ValidateTransactionDate(Transaction transaction)
+        {
+            var elapsed = (DateTime.Now - transaction.TransactionTime).TotalMinutes;
+            return elapsed > Configuration.GetValue<int>("Validation:PastMinutes")
+                ? new ValidationResult("Transaction time is invalid")
+                : ValidationResult.Success;
+        }
+
+        private ValidationResult ValidateProductStatus(Transaction transaction)
+        {
+            if (transaction.ProductCode.Status == Constants.ProductStatus.Inactive)
+            {
+                return new ValidationResult("Product state is invalid");
+            }
+            return ValidationResult.Success;
+        }
+
+        private ValidationResult ValidatePrice(Transaction transaction)
+        {
+            if (transaction.Quantity > 0 && (transaction.Quantity * transaction.ProductCode.Cost) > Configuration.GetValue<int>("Validation:MaxValue"))
+            {
+                return new ValidationResult("Transaction total cost invalid");
+            }
+            return ValidationResult.Success;
         }
     }
 }

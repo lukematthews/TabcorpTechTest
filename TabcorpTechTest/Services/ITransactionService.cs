@@ -1,4 +1,5 @@
-﻿using TabcorpTechTest.Models.Db;
+﻿using System.ComponentModel.DataAnnotations;
+using TabcorpTechTest.Models.Db;
 using TabcorpTechTest.Models.Dto;
 
 namespace TabcorpTechTest.Services
@@ -11,5 +12,6 @@ namespace TabcorpTechTest.Services
         public IEnumerable<TransactionDto> GetAllTransactions();
 
         public void SaveTransaction(Transaction transaction);
+        List<ValidationResult> ValidateTransaction(Transaction transaction);
     }
 }
