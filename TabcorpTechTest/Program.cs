@@ -81,9 +81,10 @@ if (app.Environment.IsDevelopment())
             new Product() { ProductCode = "PRODUCT_005", Cost = 500, Status = ProductStatus.Active },
         ]);
 
-        db.Users.AddRange([new User() { UserName = "user", Password = "user", Roles = [SecurityRoles.User] }]);
-        db.Users.AddRange([new User() { UserName = "user-reports", Password = "user", Roles = [SecurityRoles.User, SecurityRoles.Reports] }]);
-        db.Users.AddRange([new User() { UserName = "user-admin", Password = "user", Roles = [SecurityRoles.User, SecurityRoles.Reports, SecurityRoles.Admin] }]);
+        db.Users.AddRange([new User() { UserName = "user", Password = "user", Roles = [SecurityRoles.User] },
+            new User() { UserName = "user-reports", Password = "user", Roles = [SecurityRoles.User, SecurityRoles.Reports] },
+            new User() { UserName = "user-admin", Password = "user", Roles = [SecurityRoles.User, SecurityRoles.Reports, SecurityRoles.Admin] }
+        ]);
         db.SaveChanges();
     }
 }

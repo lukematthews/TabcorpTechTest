@@ -17,7 +17,7 @@ namespace TabcorpTechTest.Services
                           group t by t.Customer
                          into g
                           select new CustomerCostTotalDto { CustomerID = g.Key.Id, TotalCost = g.Sum(t => t.Quantity * t.Product.Cost) });
-            return totals.UnionBy(totalsList, x => x.CustomerID).ToList();
+            return [.. totals.UnionBy(totalsList, x => x.CustomerID)];
         }
 
         public List<ProductCostTotalDto> GetProductCostTotals()

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Moq.EntityFrameworkCore;
-using System.Text;
 using TabcorpTechTest.Constants;
 using TabcorpTechTest.Controllers;
 using TabcorpTechTest.Data;
@@ -17,7 +16,7 @@ public class SecurityControllerTest
     public void TestUserLookupAndPasswordCheck()
     {
         var mockContext = new Mock<ApiContext>();
-        mockContext.Setup(m => m.Users).ReturnsDbSet([new User() { UserName="test", Password="test2", Roles=[SecurityRoles.User]}]);
+        mockContext.Setup(m => m.Users).ReturnsDbSet([new User() { UserName = "test", Password = "test2", Roles = [SecurityRoles.User] }]);
 
         var inMemorySettings = new Dictionary<string, string> {
             {"Jwt:Issuer", "http://issuer.jwt"},
@@ -32,7 +31,7 @@ public class SecurityControllerTest
         SecurityController controller = new SecurityController(mockContext.Object, configuration);
 
         Assert.Equal(Results.Unauthorized(), controller.Post(new UserDto()));
-        Assert.Equal(Results.Unauthorized(), controller.Post(new UserDto() { UserName="test", Password="fail"}));
+        Assert.Equal(Results.Unauthorized(), controller.Post(new UserDto() { UserName = "test", Password = "fail" }));
         Assert.Equal(Results.Unauthorized(), controller.Post(new UserDto() { UserName = "fail", Password = "test" }));
 
         Assert.NotEqual(Results.Unauthorized(), controller.Post(new UserDto() { UserName = "test", Password = "test2" }));

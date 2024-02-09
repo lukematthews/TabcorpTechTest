@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TabcorpTechTest.Constants;
+﻿using TabcorpTechTest.Constants;
 using TabcorpTechTest.Models.Db;
 
 namespace TabcorpTechTest.Tests.Models.Db
@@ -14,10 +9,10 @@ namespace TabcorpTechTest.Tests.Models.Db
         [Fact]
         public void TestCostCalculation()
         {
-            Customer customer = new() { FirstName="a", LastName="b", Age="c", Location=Location.Australia };
-            Product product = new() { ProductCode = "product-1", Status=ProductStatus.Active, Cost= 10.10m};
+            Customer customer = new() { FirstName = "a", LastName = "b", Age = "c", Location = Location.Australia };
+            Product product = new() { ProductCode = "product-1", Status = ProductStatus.Active, Cost = 10.10m };
 
-            Transaction transaction = new() { Customer = customer, Product = product, Quantity = 0, TransactionTime=DateTime.Now };
+            Transaction transaction = new() { Customer = customer, Product = product, Quantity = 0, TransactionTime = DateTime.Now };
 
             Assert.Equal(0m, transaction.GetCost());
 
