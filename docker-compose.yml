@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  tabcorptechtest:
+    image: ${DOCKER_REGISTRY-}tabcorptechtest
+    build:
+      context: .
+      dockerfile: TabcorpTechTest/Dockerfile

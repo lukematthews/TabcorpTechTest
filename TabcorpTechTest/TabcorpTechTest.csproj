@@ -9,6 +9,7 @@
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	<UserSecretsId>90d9c1c4-8c17-4fa4-9b42-f60d61ba4357</UserSecretsId>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
