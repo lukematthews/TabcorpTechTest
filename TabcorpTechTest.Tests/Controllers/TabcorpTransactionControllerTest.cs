@@ -51,6 +51,7 @@ public class TabcorpTransactionControllerTest
         };
         mock.Setup(m => m.ToTransaction(It.Is<TransactionDto>(t => t == transactionDto))).Returns(transaction).Verifiable();
         mock.Setup(m => m.SaveTransaction(It.IsAny<Transaction>())).Verifiable();
+        mock.Setup(m => m.ValidateTransaction(It.IsAny<Transaction>())).Returns([]);
         TabcorpTransactionController controller = new TabcorpTransactionController(mock.Object);
 
         controller.Post(transactionDto);

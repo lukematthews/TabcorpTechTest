@@ -14,7 +14,7 @@ namespace TabcorpTechTest.Models.Db
 
         public decimal GetCost()
         {
-            return Quantity * Product.Cost;
+            return Product == null ? throw new InvalidOperationException() : Quantity * Product.Cost;
         }
     }
 }

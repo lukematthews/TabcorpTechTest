@@ -16,7 +16,7 @@ namespace TabcorpTechTest.Services
                           join c in _context.Customers on t.Customer.Id equals c.Id
                           group t by t.Customer
                          into g
-                          select new CustomerCostTotalDto { CustomerID = g.Key.Id, TotalCost = g.Sum(t => t.GetCost()) });
+                          select new CustomerCostTotalDto { CustomerID = g.Key.Id, TotalCost = g.Sum(t => t.Quantity * t.Product.Cost) });
             return totals.UnionBy(totalsList, x => x.CustomerID).ToList();
         }
 
@@ -28,7 +28,7 @@ namespace TabcorpTechTest.Services
                           join c in _context.Products on t.Product.ProductCode equals c.ProductCode
                           group t by t.Product
                          into g
-                          select new ProductCostTotalDto { ProductId = g.Key.ProductCode, TotalCost = g.Sum(t => t.GetCost()) }).ToList();
+                          select new ProductCostTotalDto { ProductId = g.Key.ProductCode, TotalCost = g.Sum(t => t.Quantity * t.Product.Cost) }).ToList();
             return totals.UnionBy(totalsList, x => x.ProductId).ToList();
         }
 

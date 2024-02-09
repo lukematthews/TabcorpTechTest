@@ -27,8 +27,8 @@ namespace TabcorpTechTest.Controllers
         public IResult Post([FromBody] UserDto userDto)
         {
             User user = (from u in _context.Users
-                    where u.UserName == userDto.UserName && u.Password == userDto.Password
-                    select u)
+                         where u.UserName == userDto.UserName && u.Password == userDto.Password
+                         select u)
                     .FirstOrDefault();
             if (user != null)
             {
@@ -47,7 +47,7 @@ namespace TabcorpTechTest.Controllers
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = new ClaimsIdentity(claims),                    
+                    Subject = new ClaimsIdentity(claims),
                     Expires = DateTime.UtcNow.AddMinutes(5),
                     Issuer = issuer,
                     Audience = audience,
